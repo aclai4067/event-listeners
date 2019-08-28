@@ -2,7 +2,7 @@ console.log("event-listeners");
 
 const printToDom = (divId, textToPrint) => {
     const selectedDiv = document.getElementById(divId);
-    selectedDiv.innerHTML += textToPrint;
+    selectedDiv.innerHTML = textToPrint;
 };
 
 var pies = [
@@ -44,49 +44,58 @@ var pies = [
 ]
 
 const printPies = (pieArr) => {
+    let printPie = '';
     for (let i = 0; i < pieArr.length; i++) {
         const pieCard = pieArr[i];
-        const printPie = `
+        printPie += `
             <div class="thePie ${pieCard.instructor}Pie">
             <h3>${pieCard.name}</h3>
             <img src="${pieCard.image}" alt= "Image of ${pieCard.name}" />
             </div>
         `
-        printToDom('pieDiv', printPie);
+        
     };
-    
+    printToDom('pieDiv', printPie);
 };
 
 const printInstructors = (piePrefArr) => {
+    let printButton = '<button type="button" class="instructorName" id="allInstructors">All</button>';
     for (let i = 0; i < piePrefArr.length; i+=2) {
         const pieNumber = piePrefArr[i];
-        const printButton = `
+        printButton += `
             <button type="button" class="instructorName" id="${pieNumber.instructor}">${pieNumber.instructor}</button>
         `
-        printToDom('instructorButtons', printButton);
+        
         // document.getElementById(`${pieNumber.instructor}`).addEventListener('click', () => {
         //     console.log('🐭');
         // } );
     };
+    printToDom('instructorButtons', printButton);
 }
 
 
 // printPies(pies);
 printInstructors(pies);
 
-document.getElementById(`${pies[1].instructor}`).addEventListener('click', () => {
+const buttonClick = (e) => {
     //who is the pie for
-    const instructorName = 'Zoe';
+    const instructorName = e.target.id;
     //only get their pies
-    const zoePieList = [];
-    for (n = 0; n < pies.length; n++) {
+    const selectedPies = [];
+    for (let n = 0; n < pies.length; n++) {
         const pie = pies[n];
         if (pie.instructor === instructorName) {
-            zoePieList.push(pie)
+            selectedPies.push(pie)
         }
     }
     // pass small list to pie builder
-    printPies(zoePieList);
-} );
+    printPies(selectedPies);
+};
 
+document.getElementById(`${pies[1].instructor}`).addEventListener('click', buttonClick);
+document.getElementById(`${pies[6].instructor}`).addEventListener('click', buttonClick);
+
+document.getElementById('allInstructors').addEventListener('click', (e) => {
+    printPies(pies);
+} );
 
