@@ -47,7 +47,7 @@ const printPies = (pieArr) => {
     for (let i = 0; i < pieArr.length; i++) {
         const pieCard = pieArr[i];
         const printPie = `
-            <div class="thePie">
+            <div class="thePie ${pieCard.instructor}Pie">
             <h3>${pieCard.name}</h3>
             <img src="${pieCard.image}" alt= "Image of ${pieCard.name}" />
             </div>
@@ -57,21 +57,36 @@ const printPies = (pieArr) => {
     
 };
 
-// const printInstructors = (piePrefArr) => {
-//     for (let i = 0; i < piePrefArr.length; i+=2) {
-//         const pieNumber = piePrefArr[i];
-//         const printButton = `
-//             <button type="button" class="instructorName" id="${pieNumber.instructor}">${pieNumber.instructor}</button>
-//         `
-//         printToDom('instructorButtons', printButton);
-//         document.getElementById(`${pieNumber.instructor}`).addEventListener('click', () => {
-//             console.log('🐭');
-//         } );
-//     };
+const printInstructors = (piePrefArr) => {
+    for (let i = 0; i < piePrefArr.length; i+=2) {
+        const pieNumber = piePrefArr[i];
+        const printButton = `
+            <button type="button" class="instructorName" id="${pieNumber.instructor}">${pieNumber.instructor}</button>
+        `
+        printToDom('instructorButtons', printButton);
+        // document.getElementById(`${pieNumber.instructor}`).addEventListener('click', () => {
+        //     console.log('🐭');
+        // } );
+    };
 }
 
 
-printPies(pies);
-// printInstructors(pies);
+// printPies(pies);
+printInstructors(pies);
+
+document.getElementById(`${pies[1].instructor}`).addEventListener('click', () => {
+    //who is the pie for
+    const instructorName = 'Zoe';
+    //only get their pies
+    const zoePieList = [];
+    for (n = 0; n < pies.length; n++) {
+        const pie = pies[n];
+        if (pie.instructor === instructorName) {
+            zoePieList.push(pie)
+        }
+    }
+    // pass small list to pie builder
+    printPies(zoePieList);
+} );
 
 
